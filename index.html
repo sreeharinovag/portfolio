@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Sreehari Shiji — Web Developer</title>
+<title>Sreehari Shiji — Portfolio</title>
 <link rel="icon" href="favicon.ico" sizes="any">
 
 <!-- Tailwind Play CDN -->
@@ -142,8 +142,8 @@
   </div>
 
   <!-- Right: framed print -->
-  <div class="relative order-1 lg:order-2 bg-ink grain flex items-center justify-center px-8 sm:px-12 lg:px-16 py-16 lg:py-0">
-    <div class="relative w-full max-w-sm">
+  <div class="relative order-1 lg:order-2 bg-ink grain flex items-center justify-center px-6 sm:px-10 lg:px-10 py-16 lg:py-0">
+    <div class="relative w-full max-w-lg">
       <div class="absolute -inset-3 border border-white/15 pointer-events-none"></div>
       <div class="relative aspect-[4/5] overflow-hidden">
         <img id="heroArt" src="photo.webp" alt="Sreehari Shiji" loading="eager"
@@ -395,17 +395,22 @@
     <h2 class="mt-6 font-display font-bold text-5xl sm:text-8xl leading-[0.95] tracking-tight mask inline-block" data-mask>
       Let's build<br>something.
     </h2>
-    <div class="mt-12 reveal" data-d="1">
-      <a href="mailto:sreehari.novag@gmail.com" class="font-display font-bold text-2xl sm:text-4xl border-b-2 border-paper pb-1 hover:text-neutral-300 hover:border-neutral-500 transition-colors break-all">
-        sreehari.novag@gmail.com
+    <div class="mt-12 flex flex-col sm:flex-row justify-center items-center gap-4 reveal" data-d="1">
+      <a href="mailto:sreehari.novag@gmail.com"
+         class="group inline-flex items-center gap-3 bg-paper text-ink font-mono text-xs sm:text-sm uppercase tracking-widest px-6 py-4 hover:bg-neutral-200 transition-colors">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+          <rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-10 6L2 7"/>
+        </svg>
+        Email
       </a>
-    </div>
-    <div class="mt-14 flex flex-wrap justify-center gap-8 font-mono text-xs uppercase tracking-widest reveal" data-d="2">
-      <a href="https://github.com/sreeharinovag" target="_blank" rel="noopener" class="nav-link">GitHub</a>
-      <!-- Add later:
-      <a href="https://linkedin.com/in/USERNAME" target="_blank" rel="noopener" class="nav-link">LinkedIn</a>
-      <a href="#" class="nav-link">Twitter / X</a>
-      -->
+      <a href="https://github.com/sreeharinovag" target="_blank" rel="noopener"
+         class="group inline-flex items-center gap-3 border border-neutral-600 font-mono text-xs sm:text-sm uppercase tracking-widest px-6 py-4 hover:bg-paper hover:text-ink hover:border-paper transition-colors">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+          <path d="M12 2C6.48 2 2 6.48 2 12c0 4.42 2.87 8.17 6.84 9.5.5.09.68-.22.68-.48v-1.7c-2.78.6-3.37-1.34-3.37-1.34-.45-1.16-1.11-1.47-1.11-1.47-.91-.62.07-.6.07-.6 1 .07 1.53 1.03 1.53 1.03.89 1.53 2.34 1.09 2.91.83.09-.65.35-1.09.63-1.34-2.22-.25-4.55-1.11-4.55-4.94 0-1.09.39-1.98 1.03-2.68-.1-.25-.45-1.27.1-2.65 0 0 .84-.27 2.75 1.02a9.6 9.6 0 0 1 5 0c1.91-1.29 2.75-1.02 2.75-1.02.55 1.38.2 2.4.1 2.65.64.7 1.03 1.59 1.03 2.68 0 3.84-2.34 4.69-4.57 4.94.36.31.68.92.68 1.85v2.74c0 .27.18.58.69.48A10 10 0 0 0 22 12c0-5.52-4.48-10-10-10z"/>
+        </svg>
+        GitHub
+      </a>
+      <!-- Add later: LinkedIn / Twitter buttons -->
     </div>
   </div>
   <footer class="border-t border-neutral-800">
