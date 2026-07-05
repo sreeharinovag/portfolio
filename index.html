@@ -89,7 +89,7 @@
 </div>
 
 <!-- Nav -->
-<header class="fixed top-0 inset-x-0 z-40 mix-blend-difference text-white">
+<header class="fixed top-0 inset-x-0 z-40 bg-ink/75 backdrop-blur-md text-paper border-b border-white/10">
   <nav class="max-w-6xl mx-auto px-6 h-16 flex items-center justify-between">
     <a href="#top" class="font-mono text-sm tracking-widest font-bold">DEV<span class="opacity-60">/</span>FOLIO</a>
     <div class="hidden sm:flex gap-8 font-mono text-xs tracking-wider uppercase">
@@ -98,7 +98,7 @@
       <a href="#skills" class="nav-link">Skills</a>
       <a href="#work" class="nav-link">Work</a>
       <a href="#contact" class="nav-link">Contact</a>
-      <a href="https://github.com/USERNAME/REPO" target="_blank" rel="noopener" class="nav-link">Source ↗</a>
+      <a href="https://github.com/sreeharinovag/portfolio" target="_blank" rel="noopener" class="nav-link">Source ↗</a>
     </div>
   </nav>
 </header>
@@ -394,7 +394,7 @@
       </a>
     </div>
     <div class="mt-14 flex flex-wrap justify-center gap-8 font-mono text-xs uppercase tracking-widest reveal" data-d="2">
-      <a href="https://github.com/USERNAME" target="_blank" rel="noopener" class="nav-link">GitHub</a>
+      <a href="https://github.com/sreeharinovag" target="_blank" rel="noopener" class="nav-link">GitHub</a>
       <a href="https://linkedin.com/in/USERNAME" target="_blank" rel="noopener" class="nav-link">LinkedIn</a>
       <a href="#" class="nav-link">Twitter / X</a>
     </div>
@@ -410,15 +410,30 @@
 <script>
   const rm = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-  /* Scroll reveals */
-  const io = new IntersectionObserver((entries) => {
-    entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } });
-  }, { threshold: 0.15, rootMargin: '0px 0px -60px 0px' });
+  /* Scroll reveals — rect-based so clipped .mask elements reveal reliably */
+  const revealEls = [];
   document.querySelectorAll('.reveal, [data-mask]').forEach(el => {
-    el.classList.add('reveal-target');
     if (el.hasAttribute('data-mask')) el.classList.add('mask');
-    io.observe(el);
+    revealEls.push(el);
   });
+  function revealInView() {
+    const vh = window.innerHeight;
+    for (let i = revealEls.length - 1; i >= 0; i--) {
+      const el = revealEls[i];
+      const r = el.getBoundingClientRect();
+      if (r.top < vh - 50 && r.bottom > 0) {
+        el.classList.add('in');
+        revealEls.splice(i, 1);
+      }
+    }
+  }
+  if (rm) { document.querySelectorAll('.reveal, [data-mask]').forEach(el => el.classList.add('in')); }
+  else {
+    revealInView();
+    document.addEventListener('scroll', revealInView, { passive: true });
+    window.addEventListener('resize', revealInView);
+    window.addEventListener('load', revealInView);
+  }
 
   /* Skill bars fill on scroll */
   const sio = new IntersectionObserver((entries) => {
