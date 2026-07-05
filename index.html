@@ -139,11 +139,20 @@
     </div>
   </div>
 
-  <!-- Right: full-bleed photo -->
-  <div class="relative order-1 lg:order-2 h-[52vh] lg:h-auto overflow-hidden lg:border-l lg:border-white/15">
-    <img id="heroArt" src="photo.webp" alt="Sreehari Shiji" loading="eager"
-         class="absolute inset-0 w-full h-full object-cover grayscale contrast-125" />
-    <span class="absolute top-6 right-6 font-mono text-[11px] tracking-widest text-paper/70">PORTFOLIO / 2026</span>
+  <!-- Right: framed print -->
+  <div class="relative order-1 lg:order-2 bg-ink grain flex items-center justify-center px-8 sm:px-12 lg:px-16 py-16 lg:py-0">
+    <div class="relative w-full max-w-sm">
+      <div class="absolute -inset-3 border border-white/15 pointer-events-none"></div>
+      <div class="relative aspect-[4/5] overflow-hidden">
+        <img id="heroArt" src="photo.webp" alt="Sreehari Shiji" loading="eager"
+             class="w-full h-full object-cover object-center grayscale contrast-125 brightness-110" />
+        <div class="absolute inset-0 ring-1 ring-inset ring-white/10 pointer-events-none"></div>
+      </div>
+      <div class="mt-4 flex items-center justify-between font-mono text-[10px] tracking-widest uppercase text-neutral-500">
+        <span>Sreehari Shiji</span>
+        <span>Portfolio / 2026</span>
+      </div>
+    </div>
   </div>
 
   <div class="absolute bottom-6 left-6 lg:left-16 font-mono text-[10px] tracking-[0.3em] text-neutral-500 uppercase animate-pulse z-10">Scroll ↓</div>
@@ -404,6 +413,106 @@
   </footer>
 </section>
 
+<!-- ===== CHATBOT ===== -->
+<div id="cb" class="fixed bottom-5 right-5 z-50">
+  <div id="cbPanel" class="hidden mb-3 w-[min(92vw,360px)] h-[470px] bg-paper border border-ink flex flex-col shadow-2xl origin-bottom-right">
+    <div class="bg-ink text-paper px-4 py-3 flex items-center justify-between shrink-0">
+      <div>
+        <p class="font-mono text-xs uppercase tracking-widest">Ask about Sreehari</p>
+        <p class="font-mono text-[10px] text-neutral-400 mt-0.5">Quick auto-reply bot</p>
+      </div>
+      <button id="cbClose" class="text-2xl leading-none hover:opacity-60" aria-label="Close chat">&times;</button>
+    </div>
+    <div id="cbLog" class="flex-1 overflow-y-auto p-4 space-y-3 text-sm leading-relaxed"></div>
+    <div id="cbChips" class="px-3 pb-2 flex flex-wrap gap-2 shrink-0"></div>
+    <div class="border-t border-neutral-200 p-2 flex gap-2 shrink-0">
+      <input id="cbInput" type="text" autocomplete="off" placeholder="Type a message…"
+             class="flex-1 px-3 py-2 text-sm border border-neutral-300 focus:border-ink outline-none" />
+      <button id="cbSend" class="bg-ink text-paper px-4 font-mono text-xs uppercase tracking-widest hover:bg-neutral-800 transition-colors">Send</button>
+    </div>
+  </div>
+  <button id="cbToggle" class="ml-auto flex items-center justify-center w-14 h-14 rounded-full bg-ink text-paper shadow-xl hover:scale-105 transition-transform" aria-label="Open chat">
+    <svg id="cbIcon" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
+    </svg>
+  </button>
+</div>
+
+<script>
+(function () {
+  const panel = document.getElementById('cbPanel');
+  const toggle = document.getElementById('cbToggle');
+  const closeBtn = document.getElementById('cbClose');
+  const log = document.getElementById('cbLog');
+  const chipsBox = document.getElementById('cbChips');
+  const input = document.getElementById('cbInput');
+  const send = document.getElementById('cbSend');
+  let greeted = false;
+
+  const intents = [
+    { k: ['hi', 'hello', 'hey', 'yo'], r: "Hey! I'm Sreehari's assistant. Ask about his skills, projects, or how to hire him." },
+    { k: ['stack', 'skill', 'tech', 'technolog', 'know'], r: "Sreehari works with PHP (Laravel & CodeIgniter) on the backend, and HTML, CSS, JavaScript, jQuery, Tailwind & Bootstrap on the front-end." },
+    { k: ['php', 'laravel', 'codeigniter', 'backend', 'server', 'api'], r: "Backend is his home turf — PHP with Laravel and CodeIgniter: clean routes, models, REST APIs and solid business logic." },
+    { k: ['front', 'html', 'css', 'javascript', ' js', 'jquery', 'tailwind', 'bootstrap', 'ui', 'design'], r: "On the front-end he builds responsive interfaces with HTML, CSS, JS and jQuery, styled using Tailwind or Bootstrap." },
+    { k: ['work', 'project', 'portfolio', 'built', 'case'], r: "See the Work section: an inventory platform (Laravel), a booking engine (CodeIgniter), a landing suite (Tailwind/JS) and an admin dashboard." },
+    { k: ['hire', 'available', 'freelan', 'job', 'work with', 'open'], r: "He's open to work. Tap “Get in touch”, or email sreehari.novag@gmail.com." },
+    { k: ['contact', 'email', 'reach', 'mail'], r: "Email: sreehari.novag@gmail.com — or use the Contact button in the navbar." },
+    { k: ['github', 'repo', 'source'], r: "GitHub: github.com/sreeharinovag" },
+    { k: ['experience', 'year', 'how long', 'senior'], r: "5+ years building web apps, 30+ projects shipped." },
+    { k: ['location', 'where', 'based', 'remote'], r: "He works remotely and is reachable by email anytime." },
+    { k: ['thank', 'thanks', 'thx'], r: "Anytime. Anything else you'd like to know?" },
+    { k: ['bye', 'ok', 'cool', 'great'], r: "Cheers! Reach out via the Contact button whenever you're ready." },
+  ];
+  const fallback = "I can cover Sreehari's skills, projects, experience, or how to contact/hire him. Try a chip below.";
+  const chips = ['Tech stack', 'See work', 'Hire me', 'Contact'];
+
+  function bubble(text, who) {
+    const el = document.createElement('div');
+    el.className = who === 'me'
+      ? 'ml-auto max-w-[80%] bg-ink text-paper px-3 py-2'
+      : 'mr-auto max-w-[85%] bg-neutral-100 text-ink px-3 py-2';
+    el.textContent = text;
+    log.appendChild(el);
+    log.scrollTop = log.scrollHeight;
+  }
+
+  function reply(msg) {
+    const t = ' ' + msg.toLowerCase() + ' ';
+    const hit = intents.find(i => i.k.some(k => t.includes(k)));
+    const out = hit ? hit.r : fallback;
+    setTimeout(() => bubble(out, 'bot'), 320);
+  }
+
+  function submit(msg) {
+    const v = (msg || input.value).trim();
+    if (!v) return;
+    bubble(v, 'me');
+    input.value = '';
+    reply(v);
+  }
+
+  chips.forEach(c => {
+    const b = document.createElement('button');
+    b.className = 'font-mono text-[10px] uppercase tracking-wider border border-neutral-300 px-3 py-1.5 hover:bg-ink hover:text-paper transition-colors';
+    b.textContent = c;
+    b.onclick = () => submit(c);
+    chipsBox.appendChild(b);
+  });
+
+  function open() {
+    panel.classList.remove('hidden');
+    if (!greeted) { bubble("Hi! Ask me anything about Sreehari — skills, work, or hiring.", 'bot'); greeted = true; }
+    input.focus();
+  }
+  function close() { panel.classList.add('hidden'); }
+
+  toggle.addEventListener('click', () => panel.classList.contains('hidden') ? open() : close());
+  closeBtn.addEventListener('click', close);
+  send.addEventListener('click', () => submit());
+  input.addEventListener('keydown', e => { if (e.key === 'Enter') submit(); });
+})();
+</script>
+
 <script>
   const rm = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
@@ -460,7 +569,7 @@
   if (art && !rm) {
     document.addEventListener('scroll', () => {
       const y = window.scrollY;
-      if (y < window.innerHeight) art.style.transform = `translateY(${y * 0.08}px) scale(1.08)`;
+      if (y < window.innerHeight) art.style.transform = 'scale(' + (1 + Math.min(y, 600) / 6000) + ')';
     }, { passive: true });
   }
 
