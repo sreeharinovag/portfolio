@@ -1,0 +1,494 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Web Developer — Portfolio</title>
+
+<!-- Tailwind Play CDN -->
+<script src="https://cdn.tailwindcss.com"></script>
+
+<!-- Fonts -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=JetBrains+Mono:wght@400;500;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+
+<script>
+  tailwind.config = {
+    theme: {
+      extend: {
+        fontFamily: {
+          display: ['"Space Grotesk"', 'sans-serif'],
+          mono: ['"JetBrains Mono"', 'monospace'],
+          body: ['Inter', 'sans-serif'],
+        },
+        colors: {
+          ink: '#0A0A0A',
+          paper: '#FAFAFA',
+        },
+      },
+    },
+  }
+</script>
+
+<style>
+  :root { --ink:#0A0A0A; --paper:#FAFAFA; }
+  html, body { background: var(--paper); }
+  ::selection { background: #0A0A0A; color: #FAFAFA; }
+
+  /* Scroll reveal */
+  .reveal { opacity: 0; transform: translateY(28px); transition: opacity .8s cubic-bezier(.16,1,.3,1), transform .8s cubic-bezier(.16,1,.3,1); }
+  .reveal.in { opacity: 1; transform: none; }
+  .reveal[data-d="1"]{ transition-delay:.08s } .reveal[data-d="2"]{ transition-delay:.16s }
+  .reveal[data-d="3"]{ transition-delay:.24s } .reveal[data-d="4"]{ transition-delay:.32s }
+
+  /* Clip-mask reveal for big headings */
+  .mask { clip-path: inset(0 100% 0 0); transition: clip-path 1s cubic-bezier(.16,1,.3,1); }
+  .mask.in { clip-path: inset(0 0 0 0); }
+
+  /* Marquee */
+  .marquee { display:flex; width:max-content; animation: scrollx 26s linear infinite; }
+  @keyframes scrollx { to { transform: translateX(-50%); } }
+  .marquee-wrap:hover .marquee { animation-play-state: paused; }
+
+  /* Blinking caret */
+  .caret::after { content:"_"; animation: blink 1s steps(1) infinite; }
+  @keyframes blink { 50% { opacity: 0; } }
+
+  /* Progress bar */
+  #bar { transform-origin: left; transform: scaleX(0); }
+
+  /* Skill proficiency bars */
+  .skill-bar { width: 0; transition: width 1.2s cubic-bezier(.16,1,.3,1); }
+
+  /* Grain */
+  .grain::before {
+    content:""; position:absolute; inset:0; pointer-events:none; opacity:.05; mix-blend-mode:multiply;
+    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  }
+
+  a.nav-link { position:relative; }
+  a.nav-link::after { content:""; position:absolute; left:0; bottom:-2px; width:100%; height:1px; background:currentColor; transform:scaleX(0); transform-origin:right; transition:transform .35s cubic-bezier(.16,1,.3,1); }
+  a.nav-link:hover::after { transform:scaleX(1); transform-origin:left; }
+
+  @media (prefers-reduced-motion: reduce) {
+    .reveal, .mask { opacity:1 !important; transform:none !important; clip-path:none !important; transition:none !important; }
+    .marquee { animation:none !important; }
+    .caret::after { animation:none !important; }
+    html { scroll-behavior:auto; }
+  }
+</style>
+</head>
+
+<body class="font-body text-ink antialiased">
+
+<!-- Scroll progress -->
+<div class="fixed top-0 left-0 right-0 h-[3px] bg-transparent z-50">
+  <div id="bar" class="h-full bg-ink w-full"></div>
+</div>
+
+<!-- Nav -->
+<header class="fixed top-0 inset-x-0 z-40 mix-blend-difference text-white">
+  <nav class="max-w-6xl mx-auto px-6 h-16 flex items-center justify-between">
+    <a href="#top" class="font-mono text-sm tracking-widest font-bold">DEV<span class="opacity-60">/</span>FOLIO</a>
+    <div class="hidden sm:flex gap-8 font-mono text-xs tracking-wider uppercase">
+      <a href="#about" class="nav-link">About</a>
+      <a href="#stack" class="nav-link">Stack</a>
+      <a href="#skills" class="nav-link">Skills</a>
+      <a href="#work" class="nav-link">Work</a>
+      <a href="#contact" class="nav-link">Contact</a>
+      <a href="https://github.com/USERNAME/REPO" target="_blank" rel="noopener" class="nav-link">Source ↗</a>
+    </div>
+  </nav>
+</header>
+
+<!-- ===== HERO ===== -->
+<section id="top" class="relative min-h-screen grain overflow-hidden">
+  <div class="max-w-6xl mx-auto px-6 pt-28 pb-16 grid lg:grid-cols-12 gap-10 items-center min-h-screen">
+
+    <!-- Left: text -->
+    <div class="lg:col-span-7 order-2 lg:order-1">
+      <p class="font-mono text-xs tracking-[0.3em] uppercase text-neutral-500 mb-3 reveal">
+        <span id="typed"></span><span class="caret"></span>
+      </p>
+      <p class="font-display font-bold text-xl sm:text-2xl tracking-tight mb-6 reveal" data-d="1">Sreehari Shiji</p>
+      <h1 class="font-display font-bold leading-[0.92] tracking-tight text-[15vw] sm:text-[10rem] lg:text-[9.5rem]">
+        <span class="block mask" data-mask>WEB</span>
+        <span class="block mask" data-mask data-d="1">DEV<span class="text-neutral-300">.</span></span>
+      </h1>
+      <p class="mt-8 max-w-md text-lg text-neutral-600 reveal" data-d="2">
+        I build server-driven web apps and clean interfaces — from Laravel &amp; CodeIgniter
+        backends to responsive front-ends with Tailwind and vanilla JS.
+      </p>
+      <div class="mt-10 flex flex-wrap gap-4 reveal" data-d="3">
+        <a href="#work" class="group inline-flex items-center gap-3 bg-ink text-paper font-mono text-xs uppercase tracking-widest px-7 py-4 hover:bg-neutral-800 transition-colors">
+          View Work
+          <span class="transition-transform group-hover:translate-x-1">→</span>
+        </a>
+        <a href="#contact" class="inline-flex items-center gap-3 border border-ink font-mono text-xs uppercase tracking-widest px-7 py-4 hover:bg-ink hover:text-paper transition-colors">
+          Get in touch
+        </a>
+      </div>
+    </div>
+
+    <!-- Right: hero image (self-contained SVG) -->
+    <div class="lg:col-span-5 order-1 lg:order-2 reveal" data-d="1">
+      <div id="heroArt" class="relative aspect-[4/5] w-full max-w-sm mx-auto">
+        <svg viewBox="0 0 400 500" class="w-full h-full" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <linearGradient id="g" x1="0" y1="0" x2="1" y2="1">
+              <stop offset="0" stop-color="#0A0A0A"/>
+              <stop offset="1" stop-color="#3a3a3a"/>
+            </linearGradient>
+            <pattern id="dots" width="18" height="18" patternUnits="userSpaceOnUse">
+              <circle cx="2" cy="2" r="1.4" fill="#0A0A0A" opacity="0.35"/>
+            </pattern>
+          </defs>
+
+          <!-- dotted field -->
+          <rect x="0" y="0" width="400" height="500" fill="url(#dots)"/>
+          <!-- solid block -->
+          <rect x="40" y="30" width="320" height="440" fill="url(#g)"/>
+          <!-- offset outline -->
+          <rect x="62" y="52" width="320" height="440" fill="none" stroke="#0A0A0A" stroke-width="2"/>
+
+          <!-- abstract portrait / monogram -->
+          <g fill="#FAFAFA" font-family="'JetBrains Mono', monospace">
+            <text x="70" y="120" font-size="26" opacity="0.5">&lt;/&gt;</text>
+            <text x="70" y="470" font-size="20" opacity="0.4">01 — dev</text>
+          </g>
+          <!-- code lines motif -->
+          <g stroke="#FAFAFA" stroke-width="6" stroke-linecap="round" opacity="0.9">
+            <line x1="90"  y1="200" x2="230" y2="200"/>
+            <line x1="90"  y1="228" x2="300" y2="228"/>
+            <line x1="120" y1="256" x2="260" y2="256"/>
+            <line x1="120" y1="284" x2="210" y2="284"/>
+            <line x1="90"  y1="312" x2="290" y2="312"/>
+            <line x1="120" y1="340" x2="180" y2="340"/>
+          </g>
+          <circle cx="90" cy="200" r="4" fill="#FAFAFA"/>
+        </svg>
+        <span class="absolute -bottom-4 -right-2 font-mono text-[11px] tracking-widest text-neutral-500 rotate-90 origin-bottom-right">PORTFOLIO/2025</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="absolute bottom-6 left-1/2 -translate-x-1/2 font-mono text-[10px] tracking-[0.3em] text-neutral-400 uppercase animate-pulse">Scroll ↓</div>
+</section>
+
+<!-- ===== MARQUEE ===== -->
+<div class="marquee-wrap bg-ink text-paper py-5 overflow-hidden border-y border-ink">
+  <div class="marquee font-display font-bold text-2xl sm:text-3xl uppercase tracking-tight">
+    <div class="flex gap-10 pr-10 items-center">
+      <span>PHP</span><span class="text-neutral-600">✦</span><span>Laravel</span><span class="text-neutral-600">✦</span>
+      <span>CodeIgniter</span><span class="text-neutral-600">✦</span><span>Tailwind</span><span class="text-neutral-600">✦</span>
+      <span>Bootstrap</span><span class="text-neutral-600">✦</span><span>JavaScript</span><span class="text-neutral-600">✦</span>
+      <span>jQuery</span><span class="text-neutral-600">✦</span><span>HTML</span><span class="text-neutral-600">✦</span><span>CSS</span><span class="text-neutral-600">✦</span>
+    </div>
+    <div class="flex gap-10 pr-10 items-center" aria-hidden="true">
+      <span>PHP</span><span class="text-neutral-600">✦</span><span>Laravel</span><span class="text-neutral-600">✦</span>
+      <span>CodeIgniter</span><span class="text-neutral-600">✦</span><span>Tailwind</span><span class="text-neutral-600">✦</span>
+      <span>Bootstrap</span><span class="text-neutral-600">✦</span><span>JavaScript</span><span class="text-neutral-600">✦</span>
+      <span>jQuery</span><span class="text-neutral-600">✦</span><span>HTML</span><span class="text-neutral-600">✦</span><span>CSS</span><span class="text-neutral-600">✦</span>
+    </div>
+  </div>
+</div>
+
+<!-- ===== ABOUT ===== -->
+<section id="about" class="max-w-6xl mx-auto px-6 py-28 lg:py-40">
+  <div class="grid lg:grid-cols-12 gap-12">
+    <div class="lg:col-span-4">
+      <p class="font-mono text-xs tracking-[0.3em] uppercase text-neutral-400 reveal">/ 01 — About</p>
+    </div>
+    <div class="lg:col-span-8">
+      <h2 class="font-display font-bold text-4xl sm:text-6xl leading-[1.02] tracking-tight mask" data-mask>
+        Full-stack habits,<br>front-end care.
+      </h2>
+      <p class="mt-8 max-w-2xl text-lg text-neutral-600 leading-relaxed reveal" data-d="1">
+        I'm a web developer who lives comfortably on both sides of the request. On the server I reach for
+        <span class="text-ink font-medium">PHP</span> with <span class="text-ink font-medium">Laravel</span> and
+        <span class="text-ink font-medium">CodeIgniter</span> — structuring routes, models and clean business logic.
+        On the client I compose interfaces with <span class="text-ink font-medium">HTML</span>,
+        <span class="text-ink font-medium">CSS</span>, <span class="text-ink font-medium">JavaScript</span> and
+        <span class="text-ink font-medium">jQuery</span>, styled with <span class="text-ink font-medium">Tailwind</span>
+        or <span class="text-ink font-medium">Bootstrap</span>.
+      </p>
+      <div class="mt-12 grid grid-cols-2 sm:grid-cols-3 gap-px bg-neutral-200 border border-neutral-200 reveal" data-d="2">
+        <div class="bg-paper p-6"><p class="font-display font-bold text-4xl">5+</p><p class="font-mono text-xs uppercase tracking-widest text-neutral-500 mt-1">Years coding</p></div>
+        <div class="bg-paper p-6"><p class="font-display font-bold text-4xl">30+</p><p class="font-mono text-xs uppercase tracking-widest text-neutral-500 mt-1">Projects shipped</p></div>
+        <div class="bg-paper p-6"><p class="font-display font-bold text-4xl">2</p><p class="font-mono text-xs uppercase tracking-widest text-neutral-500 mt-1">PHP frameworks</p></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== STACK (inverted) ===== -->
+<section id="stack" class="bg-ink text-paper">
+  <div class="max-w-6xl mx-auto px-6 py-28 lg:py-40">
+    <div class="grid lg:grid-cols-12 gap-12">
+      <div class="lg:col-span-4">
+        <p class="font-mono text-xs tracking-[0.3em] uppercase text-neutral-500 reveal">/ 02 — Stack</p>
+        <h2 class="mt-4 font-display font-bold text-4xl sm:text-6xl leading-[1.02] tracking-tight mask" data-mask>
+          The toolkit.
+        </h2>
+      </div>
+
+      <div class="lg:col-span-8 space-y-px">
+        <!-- Backend -->
+        <div class="reveal">
+          <div class="flex items-baseline justify-between border-b border-neutral-800 pb-4">
+            <h3 class="font-mono text-sm uppercase tracking-widest text-neutral-400">Backend</h3>
+            <span class="font-mono text-xs text-neutral-600">/ server</span>
+          </div>
+          <ul class="mt-6 flex flex-wrap gap-3 mb-12">
+            <li class="border border-neutral-700 px-5 py-2.5 font-mono text-sm hover:bg-paper hover:text-ink transition-colors">PHP</li>
+            <li class="border border-neutral-700 px-5 py-2.5 font-mono text-sm hover:bg-paper hover:text-ink transition-colors">Laravel</li>
+            <li class="border border-neutral-700 px-5 py-2.5 font-mono text-sm hover:bg-paper hover:text-ink transition-colors">CodeIgniter</li>
+          </ul>
+        </div>
+        <!-- Frontend -->
+        <div class="reveal" data-d="1">
+          <div class="flex items-baseline justify-between border-b border-neutral-800 pb-4">
+            <h3 class="font-mono text-sm uppercase tracking-widest text-neutral-400">Frontend</h3>
+            <span class="font-mono text-xs text-neutral-600">/ client</span>
+          </div>
+          <ul class="mt-6 flex flex-wrap gap-3 mb-12">
+            <li class="border border-neutral-700 px-5 py-2.5 font-mono text-sm hover:bg-paper hover:text-ink transition-colors">HTML</li>
+            <li class="border border-neutral-700 px-5 py-2.5 font-mono text-sm hover:bg-paper hover:text-ink transition-colors">CSS</li>
+            <li class="border border-neutral-700 px-5 py-2.5 font-mono text-sm hover:bg-paper hover:text-ink transition-colors">JavaScript</li>
+            <li class="border border-neutral-700 px-5 py-2.5 font-mono text-sm hover:bg-paper hover:text-ink transition-colors">jQuery</li>
+          </ul>
+        </div>
+        <!-- Styling -->
+        <div class="reveal" data-d="2">
+          <div class="flex items-baseline justify-between border-b border-neutral-800 pb-4">
+            <h3 class="font-mono text-sm uppercase tracking-widest text-neutral-400">Styling</h3>
+            <span class="font-mono text-xs text-neutral-600">/ ui</span>
+          </div>
+          <ul class="mt-6 flex flex-wrap gap-3">
+            <li class="border border-neutral-700 px-5 py-2.5 font-mono text-sm hover:bg-paper hover:text-ink transition-colors">Tailwind CSS</li>
+            <li class="border border-neutral-700 px-5 py-2.5 font-mono text-sm hover:bg-paper hover:text-ink transition-colors">Bootstrap</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== SKILLS ===== -->
+<section id="skills" class="border-t border-neutral-200">
+  <div class="max-w-6xl mx-auto px-6 py-28 lg:py-40">
+    <div class="grid lg:grid-cols-12 gap-12">
+      <div class="lg:col-span-4">
+        <p class="font-mono text-xs tracking-[0.3em] uppercase text-neutral-400 reveal">/ 03 — Skills</p>
+        <h2 class="mt-4 font-display font-bold text-4xl sm:text-6xl leading-[1.02] tracking-tight mask" data-mask>
+          Where I'm<br>strong.
+        </h2>
+        <p class="mt-6 max-w-xs text-neutral-500 reveal" data-d="1">
+          Self-rated proficiency across the tools I reach for daily.
+        </p>
+      </div>
+
+      <div class="lg:col-span-8 space-y-8">
+        <!-- skill row template -->
+        <div class="reveal">
+          <div class="flex items-baseline justify-between mb-2">
+            <span class="font-mono text-sm uppercase tracking-widest">PHP · Laravel · CodeIgniter</span>
+            <span class="font-mono text-xs text-neutral-400">95%</span>
+          </div>
+          <div class="h-[6px] bg-neutral-200"><div class="skill-bar h-full bg-ink" data-level="95"></div></div>
+        </div>
+
+        <div class="reveal" data-d="1">
+          <div class="flex items-baseline justify-between mb-2">
+            <span class="font-mono text-sm uppercase tracking-widest">HTML · CSS</span>
+            <span class="font-mono text-xs text-neutral-400">95%</span>
+          </div>
+          <div class="h-[6px] bg-neutral-200"><div class="skill-bar h-full bg-ink" data-level="95"></div></div>
+        </div>
+
+        <div class="reveal" data-d="2">
+          <div class="flex items-baseline justify-between mb-2">
+            <span class="font-mono text-sm uppercase tracking-widest">Tailwind · Bootstrap</span>
+            <span class="font-mono text-xs text-neutral-400">92%</span>
+          </div>
+          <div class="h-[6px] bg-neutral-200"><div class="skill-bar h-full bg-ink" data-level="92"></div></div>
+        </div>
+
+        <div class="reveal" data-d="1">
+          <div class="flex items-baseline justify-between mb-2">
+            <span class="font-mono text-sm uppercase tracking-widest">JavaScript · jQuery</span>
+            <span class="font-mono text-xs text-neutral-400">88%</span>
+          </div>
+          <div class="h-[6px] bg-neutral-200"><div class="skill-bar h-full bg-ink" data-level="88"></div></div>
+        </div>
+
+        <div class="reveal" data-d="2">
+          <div class="flex items-baseline justify-between mb-2">
+            <span class="font-mono text-sm uppercase tracking-widest">MySQL · Database design</span>
+            <span class="font-mono text-xs text-neutral-400">90%</span>
+          </div>
+          <div class="h-[6px] bg-neutral-200"><div class="skill-bar h-full bg-ink" data-level="90"></div></div>
+        </div>
+
+        <div class="reveal" data-d="3">
+          <div class="flex items-baseline justify-between mb-2">
+            <span class="font-mono text-sm uppercase tracking-widest">REST APIs · AJAX</span>
+            <span class="font-mono text-xs text-neutral-400">85%</span>
+          </div>
+          <div class="h-[6px] bg-neutral-200"><div class="skill-bar h-full bg-ink" data-level="85"></div></div>
+        </div>
+
+        <div class="reveal" data-d="4">
+          <div class="flex items-baseline justify-between mb-2">
+            <span class="font-mono text-sm uppercase tracking-widest">Git · Version control</span>
+            <span class="font-mono text-xs text-neutral-400">82%</span>
+          </div>
+          <div class="h-[6px] bg-neutral-200"><div class="skill-bar h-full bg-ink" data-level="82"></div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== WORK ===== -->
+<section id="work" class="max-w-6xl mx-auto px-6 py-28 lg:py-40">
+  <div class="flex items-end justify-between mb-16">
+    <div>
+      <p class="font-mono text-xs tracking-[0.3em] uppercase text-neutral-400 reveal">/ 04 — Work</p>
+      <h2 class="mt-4 font-display font-bold text-4xl sm:text-6xl leading-[1.02] tracking-tight mask" data-mask>Selected builds.</h2>
+    </div>
+  </div>
+
+  <div class="grid md:grid-cols-2 gap-px bg-neutral-200 border border-neutral-200">
+    <!-- card -->
+    <article class="group bg-paper p-8 lg:p-10 hover:bg-ink hover:text-paper transition-colors duration-300 reveal">
+      <div class="flex items-start justify-between">
+        <span class="font-display font-bold text-6xl text-neutral-200 group-hover:text-neutral-700 transition-colors">01</span>
+        <span class="font-mono text-xs uppercase tracking-widest text-neutral-400 group-hover:text-neutral-500">Laravel</span>
+      </div>
+      <h3 class="mt-8 font-display font-bold text-2xl">Inventory Platform</h3>
+      <p class="mt-3 text-neutral-500 group-hover:text-neutral-400">Multi-warehouse stock system with role-based access, REST endpoints and live dashboards.</p>
+      <p class="mt-6 font-mono text-xs uppercase tracking-widest group-hover:translate-x-1 transition-transform">View case →</p>
+    </article>
+
+    <article class="group bg-paper p-8 lg:p-10 hover:bg-ink hover:text-paper transition-colors duration-300 reveal" data-d="1">
+      <div class="flex items-start justify-between">
+        <span class="font-display font-bold text-6xl text-neutral-200 group-hover:text-neutral-700 transition-colors">02</span>
+        <span class="font-mono text-xs uppercase tracking-widest text-neutral-400 group-hover:text-neutral-500">CodeIgniter</span>
+      </div>
+      <h3 class="mt-8 font-display font-bold text-2xl">Booking Engine</h3>
+      <p class="mt-3 text-neutral-500 group-hover:text-neutral-400">Appointment scheduler with payment hooks, email reminders and an admin calendar.</p>
+      <p class="mt-6 font-mono text-xs uppercase tracking-widest group-hover:translate-x-1 transition-transform">View case →</p>
+    </article>
+
+    <article class="group bg-paper p-8 lg:p-10 hover:bg-ink hover:text-paper transition-colors duration-300 reveal" data-d="2">
+      <div class="flex items-start justify-between">
+        <span class="font-display font-bold text-6xl text-neutral-200 group-hover:text-neutral-700 transition-colors">03</span>
+        <span class="font-mono text-xs uppercase tracking-widest text-neutral-400 group-hover:text-neutral-500">Tailwind · JS</span>
+      </div>
+      <h3 class="mt-8 font-display font-bold text-2xl">Landing Suite</h3>
+      <p class="mt-3 text-neutral-500 group-hover:text-neutral-400">A set of fast, responsive marketing pages with scroll interactions and a headless CMS.</p>
+      <p class="mt-6 font-mono text-xs uppercase tracking-widest group-hover:translate-x-1 transition-transform">View case →</p>
+    </article>
+
+    <article class="group bg-paper p-8 lg:p-10 hover:bg-ink hover:text-paper transition-colors duration-300 reveal" data-d="3">
+      <div class="flex items-start justify-between">
+        <span class="font-display font-bold text-6xl text-neutral-200 group-hover:text-neutral-700 transition-colors">04</span>
+        <span class="font-mono text-xs uppercase tracking-widest text-neutral-400 group-hover:text-neutral-500">jQuery · Bootstrap</span>
+      </div>
+      <h3 class="mt-8 font-display font-bold text-2xl">Admin Dashboard</h3>
+      <p class="mt-3 text-neutral-500 group-hover:text-neutral-400">Data-heavy control panel with filtering, sortable tables and AJAX-driven widgets.</p>
+      <p class="mt-6 font-mono text-xs uppercase tracking-widest group-hover:translate-x-1 transition-transform">View case →</p>
+    </article>
+  </div>
+</section>
+
+<!-- ===== CONTACT (inverted) ===== -->
+<section id="contact" class="bg-ink text-paper grain relative overflow-hidden">
+  <div class="max-w-6xl mx-auto px-6 py-32 lg:py-48 text-center">
+    <p class="font-mono text-xs tracking-[0.3em] uppercase text-neutral-500 reveal">/ 05 — Contact</p>
+    <h2 class="mt-6 font-display font-bold text-5xl sm:text-8xl leading-[0.95] tracking-tight mask inline-block" data-mask>
+      Let's build<br>something.
+    </h2>
+    <div class="mt-12 reveal" data-d="1">
+      <a href="mailto:sreeharishiji@gmail.com" class="font-display font-bold text-2xl sm:text-4xl border-b-2 border-paper pb-1 hover:text-neutral-300 hover:border-neutral-500 transition-colors break-all">
+        sreeharishiji@gmail.com
+      </a>
+    </div>
+    <div class="mt-14 flex flex-wrap justify-center gap-8 font-mono text-xs uppercase tracking-widest reveal" data-d="2">
+      <a href="https://github.com/USERNAME" target="_blank" rel="noopener" class="nav-link">GitHub</a>
+      <a href="https://linkedin.com/in/USERNAME" target="_blank" rel="noopener" class="nav-link">LinkedIn</a>
+      <a href="#" class="nav-link">Twitter / X</a>
+    </div>
+  </div>
+  <footer class="border-t border-neutral-800">
+    <div class="max-w-6xl mx-auto px-6 py-6 flex flex-col sm:flex-row justify-between gap-3 font-mono text-[11px] tracking-widest uppercase text-neutral-500">
+      <span>© 2025 — Sreehari Shiji</span>
+      <span>Built with Tailwind · Vanilla JS</span>
+    </div>
+  </footer>
+</section>
+
+<script>
+  const rm = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  /* Scroll reveals */
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } });
+  }, { threshold: 0.15, rootMargin: '0px 0px -60px 0px' });
+  document.querySelectorAll('.reveal, [data-mask]').forEach(el => {
+    el.classList.add('reveal-target');
+    if (el.hasAttribute('data-mask')) el.classList.add('mask');
+    io.observe(el);
+  });
+
+  /* Skill bars fill on scroll */
+  const sio = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.style.width = e.target.dataset.level + '%';
+        sio.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.4 });
+  document.querySelectorAll('.skill-bar').forEach(el => {
+    if (rm) { el.style.width = el.dataset.level + '%'; } else { sio.observe(el); }
+  });
+
+  /* Progress bar */
+  const bar = document.getElementById('bar');
+  const onScroll = () => {
+    const h = document.documentElement;
+    const p = h.scrollTop / (h.scrollHeight - h.clientHeight || 1);
+    bar.style.transform = `scaleX(${p})`;
+  };
+  document.addEventListener('scroll', onScroll, { passive: true });
+  onScroll();
+
+  /* Hero parallax */
+  const art = document.getElementById('heroArt');
+  if (art && !rm) {
+    document.addEventListener('scroll', () => {
+      const y = window.scrollY;
+      if (y < window.innerHeight) art.style.transform = `translateY(${y * 0.12}px)`;
+    }, { passive: true });
+  }
+
+  /* Typing effect */
+  const typed = document.getElementById('typed');
+  const words = ['php developer', 'laravel + codeigniter', 'front-end builder'];
+  if (typed && !rm) {
+    let wi = 0, ci = 0, del = false;
+    (function tick(){
+      const w = words[wi];
+      typed.textContent = w.slice(0, ci);
+      if (!del && ci < w.length) { ci++; setTimeout(tick, 70); }
+      else if (!del && ci === w.length) { del = true; setTimeout(tick, 1400); }
+      else if (del && ci > 0) { ci--; setTimeout(tick, 35); }
+      else { del = false; wi = (wi + 1) % words.length; setTimeout(tick, 300); }
+    })();
+  } else if (typed) { typed.textContent = 'php developer'; }
+</script>
+</body>
+</html>
