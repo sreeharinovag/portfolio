@@ -104,47 +104,53 @@
 </header>
 
 <!-- ===== HERO ===== -->
-<section id="top" class="relative min-h-screen grain overflow-hidden">
-  <div class="max-w-6xl mx-auto px-6 pt-28 pb-16 grid lg:grid-cols-12 gap-10 items-center min-h-screen">
+<section id="top" class="relative min-h-screen grid lg:grid-cols-2">
 
-    <!-- Left: text -->
-    <div class="lg:col-span-7 order-2 lg:order-1">
-      <p class="font-mono text-xs tracking-[0.3em] uppercase text-neutral-500 mb-3 reveal">
+  <!-- Left: black text panel -->
+  <div class="relative bg-ink text-paper grain flex items-center order-2 lg:order-1">
+    <div class="w-full px-6 sm:px-12 lg:px-16 py-24 lg:py-0 max-w-2xl ml-auto">
+      <p class="font-mono text-xs tracking-[0.3em] uppercase text-neutral-500 mb-8 reveal">
         <span id="typed"></span><span class="caret"></span>
       </p>
-      <p class="font-display font-bold text-xl sm:text-2xl tracking-tight mb-6 reveal" data-d="1">Sreehari Shiji</p>
-      <h1 class="font-display font-bold leading-[0.92] tracking-tight text-[15vw] sm:text-[10rem] lg:text-[9.5rem]">
-        <span class="block mask" data-mask>WEB</span>
-        <span class="block mask" data-mask data-d="1">DEV<span class="text-neutral-300">.</span></span>
+
+      <h1 class="font-display font-bold leading-[0.9] tracking-tight text-[13vw] sm:text-7xl lg:text-8xl">
+        <span class="block mask" data-mask>Sreehari</span>
+        <span class="block mask" data-mask data-d="1">Shiji<span class="text-neutral-600">.</span></span>
       </h1>
-      <p class="mt-8 max-w-md text-lg text-neutral-600 reveal" data-d="2">
+
+      <div class="mt-8 flex items-center gap-4 reveal" data-d="2">
+        <span class="h-px w-12 bg-neutral-600"></span>
+        <p class="font-mono text-sm uppercase tracking-widest text-neutral-300">Web Developer</p>
+      </div>
+
+      <p class="mt-8 max-w-md text-lg text-neutral-400 leading-relaxed reveal" data-d="3">
         I build server-driven web apps and clean interfaces — from Laravel &amp; CodeIgniter
         backends to responsive front-ends with Tailwind and vanilla JS.
       </p>
-      <div class="mt-10 flex flex-wrap gap-4 reveal" data-d="3">
-        <a href="#work" class="group inline-flex items-center gap-3 bg-ink text-paper font-mono text-xs uppercase tracking-widest px-7 py-4 hover:bg-neutral-800 transition-colors">
+
+      <div class="mt-10 flex flex-wrap gap-4 reveal" data-d="4">
+        <a href="#work" class="group inline-flex items-center gap-3 bg-paper text-ink font-mono text-xs uppercase tracking-widest px-7 py-4 hover:bg-neutral-200 transition-colors">
           View Work
           <span class="transition-transform group-hover:translate-x-1">→</span>
         </a>
-        <a href="#contact" class="inline-flex items-center gap-3 border border-ink font-mono text-xs uppercase tracking-widest px-7 py-4 hover:bg-ink hover:text-paper transition-colors">
+        <a href="#contact" class="inline-flex items-center gap-3 border border-neutral-600 font-mono text-xs uppercase tracking-widest px-7 py-4 hover:bg-paper hover:text-ink transition-colors">
           Get in touch
         </a>
       </div>
     </div>
-
-    <!-- Right: hero image (self-contained SVG) -->
-    <div class="lg:col-span-5 order-1 lg:order-2 reveal" data-d="1">
-      <div id="heroArt" class="relative aspect-[4/5] w-full max-w-sm mx-auto">
-        <div class="absolute inset-0 bg-ink"></div>
-        <img src="photo.webp" alt="Sreehari Shiji" loading="eager"
-             class="relative w-full h-full object-cover grayscale contrast-125" />
-        <div class="absolute inset-0 ring-1 ring-inset ring-ink translate-x-3 translate-y-3 pointer-events-none"></div>
-        <span class="absolute -bottom-4 -right-2 font-mono text-[11px] tracking-widest text-neutral-500 rotate-90 origin-bottom-right">PORTFOLIO/2025</span>
-      </div>
-    </div>
   </div>
 
-  <div class="absolute bottom-6 left-1/2 -translate-x-1/2 font-mono text-[10px] tracking-[0.3em] text-neutral-400 uppercase animate-pulse">Scroll ↓</div>
+  <!-- Right: full-bleed photo -->
+  <div class="relative order-1 lg:order-2 h-[52vh] lg:h-auto overflow-hidden">
+    <img id="heroArt" src="photo.webp" alt="Sreehari Shiji" loading="eager"
+         class="absolute inset-0 w-full h-full object-cover grayscale contrast-125" />
+    <!-- fade seam into the black panel on desktop -->
+    <div class="hidden lg:block absolute inset-y-0 left-0 w-40 bg-gradient-to-r from-ink to-transparent"></div>
+    <div class="lg:hidden absolute inset-x-0 bottom-0 h-40 bg-gradient-to-t from-ink to-transparent"></div>
+    <span class="absolute top-6 right-6 font-mono text-[11px] tracking-widest text-paper/70">PORTFOLIO / 2025</span>
+  </div>
+
+  <div class="absolute bottom-6 left-6 lg:left-16 font-mono text-[10px] tracking-[0.3em] text-neutral-500 uppercase animate-pulse z-10">Scroll ↓</div>
 </section>
 
 <!-- ===== MARQUEE ===== -->
@@ -442,7 +448,7 @@
   if (art && !rm) {
     document.addEventListener('scroll', () => {
       const y = window.scrollY;
-      if (y < window.innerHeight) art.style.transform = `translateY(${y * 0.12}px)`;
+      if (y < window.innerHeight) art.style.transform = `translateY(${y * 0.08}px) scale(1.08)`;
     }, { passive: true });
   }
 
