@@ -62,6 +62,12 @@
   /* Skill proficiency bars */
   .skill-bar { width: 0; transition: width 1.2s cubic-bezier(.16,1,.3,1); }
 
+  /* Hero slider */
+  .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; scroll-behavior: smooth; }
+  .no-scrollbar::-webkit-scrollbar { display: none; }
+  .hdot { width: 8px; height: 8px; border-radius: 9999px; background: rgba(250,250,250,.3); transition: all .35s cubic-bezier(.16,1,.3,1); }
+  .hdot.active { width: 24px; background: #FAFAFA; }
+
   /* Grain */
   .grain::before {
     content:""; position:absolute; inset:0; pointer-events:none; opacity:.05; mix-blend-mode:multiply;
@@ -117,64 +123,68 @@
 </header>
 
 <!-- ===== HERO ===== -->
-<section id="top" class="relative lg:min-h-screen grid lg:grid-cols-2">
+<section id="top" class="relative lg:min-h-screen">
 
-  <!-- Left: black text panel -->
-  <div class="relative bg-ink text-paper grain flex items-center order-2 lg:order-1 overflow-hidden">
-    <!-- mobile-only photo background -->
-    <div class="lg:hidden absolute inset-0 z-0" aria-hidden="true">
-      <img src="photo.webp" alt="" class="w-full h-full object-cover grayscale opacity-20" />
-      <div class="absolute inset-0 bg-ink/80"></div>
-    </div>
-    <div class="relative z-10 w-full px-6 sm:px-12 lg:px-16 pt-28 pb-16 lg:py-0 max-w-2xl lg:ml-auto">
-      <p class="font-mono text-sm tracking-[0.3em] uppercase text-neutral-500 mb-8 reveal">
-        <span id="typed"></span><span class="caret"></span>
-      </p>
+  <div id="heroSlider" class="no-scrollbar flex lg:grid lg:grid-cols-2 lg:min-h-screen overflow-x-auto lg:overflow-visible snap-x snap-mandatory">
 
-      <h1 class="font-display font-bold leading-[0.9] tracking-tight text-[13vw] sm:text-7xl lg:text-8xl uppercase">
-        <span class="block mask" data-mask>I'm</span>
-        <span class="block mask" data-mask data-d="1">Sreehari</span>
-        <span class="block mask" data-mask data-d="2">Shiji<span class="text-neutral-600">.</span></span>
-      </h1>
+    <!-- Slide 1: text -->
+    <div class="snap-center shrink-0 w-full lg:w-auto relative bg-ink text-paper grain flex items-center min-h-[86vh] lg:min-h-0">
+      <div class="relative z-10 w-full px-6 sm:px-12 lg:px-16 pt-28 pb-16 lg:py-0 max-w-2xl lg:ml-auto">
+        <p class="font-mono text-sm tracking-[0.3em] uppercase text-neutral-500 mb-8 reveal">
+          <span id="typed"></span><span class="caret"></span>
+        </p>
 
-      <div class="mt-8 flex items-center gap-4 reveal" data-d="2">
-        <span class="h-px w-12 bg-neutral-600"></span>
-        <p class="font-mono text-sm uppercase tracking-widest text-neutral-300">A Full-Stack Web Developer</p>
+        <h1 class="font-display font-bold leading-[0.9] tracking-tight text-[13vw] sm:text-7xl lg:text-8xl uppercase">
+          <span class="block mask" data-mask>I'm</span>
+          <span class="block mask" data-mask data-d="1">Sreehari</span>
+          <span class="block mask" data-mask data-d="2">Shiji<span class="text-neutral-600">.</span></span>
+        </h1>
+
+        <div class="mt-8 flex items-center gap-4 reveal" data-d="2">
+          <span class="h-px w-12 bg-neutral-600"></span>
+          <p class="font-mono text-sm uppercase tracking-widest text-neutral-300">A Full-Stack Web Developer</p>
+        </div>
+
+        <p class="mt-8 max-w-lg text-lg text-neutral-400 leading-relaxed reveal" data-d="3">
+          Building server-driven applications end to end. On the backend
+          I architect clean, maintainable systems in PHP with Laravel and CodeIgniter routes, models,
+          REST APIs and business logic that scale. On the front I craft responsive, accessible interfaces
+          with HTML, CSS, JavaScript and jQuery, styled in Tailwind or Bootstrap.
+        </p>
+
+        <div class="mt-10 flex flex-wrap gap-4 reveal" data-d="4">
+          <a href="#work" class="group inline-flex items-center gap-3 bg-paper text-ink font-mono text-xs uppercase tracking-widest px-7 py-4 hover:bg-neutral-200 transition-colors">
+            View Work
+            <span class="transition-transform group-hover:translate-x-1">→</span>
+          </a>
+          <a href="#contact" class="inline-flex items-center gap-3 border border-neutral-600 font-mono text-xs uppercase tracking-widest px-7 py-4 hover:bg-paper hover:text-ink transition-colors">
+            Get in touch
+          </a>
+        </div>
       </div>
+    </div>
 
-      <p class="mt-8 max-w-lg text-lg text-neutral-400 leading-relaxed reveal" data-d="3">
-        Building server-driven applications end to end. On the backend
-        I architect clean, maintainable systems in PHP with Laravel and CodeIgniter routes, models,
-        REST APIs and business logic that scale. On the front I craft responsive, accessible interfaces
-        with HTML, CSS, JavaScript and jQuery, styled in Tailwind or Bootstrap.
-      </p>
-
-      <div class="mt-10 flex flex-wrap gap-4 reveal" data-d="4">
-        <a href="#work" class="group inline-flex items-center gap-3 bg-paper text-ink font-mono text-xs uppercase tracking-widest px-7 py-4 hover:bg-neutral-200 transition-colors">
-          View Work
-          <span class="transition-transform group-hover:translate-x-1">→</span>
-        </a>
-        <a href="#contact" class="inline-flex items-center gap-3 border border-neutral-600 font-mono text-xs uppercase tracking-widest px-7 py-4 hover:bg-paper hover:text-ink transition-colors">
-          Get in touch
-        </a>
+    <!-- Slide 2: framed print -->
+    <div class="snap-center shrink-0 w-full lg:w-auto relative bg-ink grain flex items-center justify-center px-7 sm:px-10 lg:px-10 pt-28 pb-16 lg:py-0 min-h-[86vh] lg:min-h-0">
+      <div class="relative w-full max-w-lg">
+        <div class="absolute -inset-3 border border-white/15 pointer-events-none"></div>
+        <div class="relative aspect-[4/5] overflow-hidden">
+          <img id="heroArt" src="photo.webp" alt="Sreehari Shiji" loading="eager"
+               class="w-full h-full object-cover object-center grayscale contrast-125 brightness-110" />
+          <div class="absolute inset-0 ring-1 ring-inset ring-white/10 pointer-events-none"></div>
+        </div>
+        <div class="mt-4 flex items-center justify-between font-mono text-[10px] tracking-widest uppercase text-neutral-500">
+          <span>Sreehari Shiji</span>
+          <span>Portfolio / 2026</span>
+        </div>
       </div>
     </div>
   </div>
 
-  <!-- Right: framed print (desktop only) -->
-  <div class="relative order-1 lg:order-2 bg-ink grain hidden lg:flex items-center justify-center px-6 sm:px-10 lg:px-10 pt-24 pb-6 lg:py-0">
-    <div class="relative w-full max-w-lg">
-      <div class="absolute -inset-3 border border-white/15 pointer-events-none"></div>
-      <div class="relative aspect-[4/5] overflow-hidden">
-        <img id="heroArt" src="photo.webp" alt="Sreehari Shiji" loading="eager"
-             class="w-full h-full object-cover object-center grayscale contrast-125 brightness-110" />
-        <div class="absolute inset-0 ring-1 ring-inset ring-white/10 pointer-events-none"></div>
-      </div>
-      <div class="mt-4 flex items-center justify-between font-mono text-[10px] tracking-widest uppercase text-neutral-500">
-        <span>Sreehari Shiji</span>
-        <span>Portfolio / 2026</span>
-      </div>
-    </div>
+  <!-- Slider dots (mobile only) -->
+  <div class="lg:hidden bg-ink flex justify-center items-center gap-2.5 py-6">
+    <button class="hdot active" data-i="0" aria-label="Go to intro"></button>
+    <button class="hdot" data-i="1" aria-label="Go to photo"></button>
   </div>
 
   <div class="hidden lg:block absolute bottom-6 left-6 lg:left-16 font-mono text-[10px] tracking-[0.3em] text-neutral-500 uppercase animate-pulse z-10">Scroll ↓</div>
@@ -552,6 +562,20 @@
   if (navToggle) {
     navToggle.addEventListener('click', () => setMenu(navMenu.classList.contains('hidden')));
     navMenu.querySelectorAll('.nav-m').forEach(a => a.addEventListener('click', () => setMenu(false)));
+  }
+
+  /* Hero slider dots */
+  const slider = document.getElementById('heroSlider');
+  const dots = Array.from(document.querySelectorAll('.hdot'));
+  if (slider && dots.length) {
+    const sync = () => {
+      const i = Math.round(slider.scrollLeft / slider.clientWidth);
+      dots.forEach((d, idx) => d.classList.toggle('active', idx === i));
+    };
+    slider.addEventListener('scroll', sync, { passive: true });
+    dots.forEach(d => d.addEventListener('click', () => {
+      slider.scrollTo({ left: slider.clientWidth * (+d.dataset.i), behavior: 'smooth' });
+    }));
   }
 })();
 </script>
