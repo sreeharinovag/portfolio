@@ -98,16 +98,35 @@
       <a href="#skills" class="nav-link">Skills</a>
       <a href="#work" class="nav-link">Work</a>
     </div>
-    <a href="#contact" class="font-mono text-[11px] tracking-wider uppercase bg-paper text-ink rounded-full px-4 py-2 hover:bg-neutral-200 transition-colors">Contact</a>
+    <a href="#contact" class="hidden sm:inline-flex font-mono text-[11px] tracking-wider uppercase bg-paper text-ink rounded-full px-4 py-2 hover:bg-neutral-200 transition-colors">Contact</a>
+    <button id="navToggle" class="sm:hidden flex items-center justify-center w-10 h-10 rounded-full hover:bg-white/10 transition-colors" aria-label="Menu" aria-expanded="false">
+      <svg id="navIcon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+        <line x1="4" y1="8" x2="20" y2="8"/><line x1="4" y1="16" x2="20" y2="16"/>
+      </svg>
+    </button>
   </nav>
+
+  <!-- Mobile dropdown -->
+  <div id="navMenu" class="sm:hidden hidden max-w-3xl mx-auto mt-2 bg-ink/95 backdrop-blur-md border border-white/10 rounded-3xl p-3 text-paper font-mono text-xs uppercase tracking-widest flex flex-col">
+    <a href="#about" class="nav-m px-4 py-3 rounded-2xl hover:bg-white/10">About</a>
+    <a href="#stack" class="nav-m px-4 py-3 rounded-2xl hover:bg-white/10">Stack</a>
+    <a href="#skills" class="nav-m px-4 py-3 rounded-2xl hover:bg-white/10">Skills</a>
+    <a href="#work" class="nav-m px-4 py-3 rounded-2xl hover:bg-white/10">Work</a>
+    <a href="#contact" class="nav-m px-4 py-3 mt-1 bg-paper text-ink rounded-full text-center">Contact</a>
+  </div>
 </header>
 
 <!-- ===== HERO ===== -->
 <section id="top" class="relative lg:min-h-screen grid lg:grid-cols-2">
 
   <!-- Left: black text panel -->
-  <div class="relative bg-ink text-paper grain flex items-center order-2 lg:order-1">
-    <div class="w-full px-6 sm:px-12 lg:px-16 py-16 lg:py-0 max-w-2xl lg:ml-auto">
+  <div class="relative bg-ink text-paper grain flex items-center order-2 lg:order-1 overflow-hidden">
+    <!-- mobile-only photo background -->
+    <div class="lg:hidden absolute inset-0 z-0" aria-hidden="true">
+      <img src="photo.webp" alt="" class="w-full h-full object-cover grayscale opacity-20" />
+      <div class="absolute inset-0 bg-ink/80"></div>
+    </div>
+    <div class="relative z-10 w-full px-6 sm:px-12 lg:px-16 pt-28 pb-16 lg:py-0 max-w-2xl lg:ml-auto">
       <p class="font-mono text-sm tracking-[0.3em] uppercase text-neutral-500 mb-8 reveal">
         <span id="typed"></span><span class="caret"></span>
       </p>
@@ -142,8 +161,8 @@
     </div>
   </div>
 
-  <!-- Right: framed print -->
-  <div class="relative order-1 lg:order-2 bg-ink grain flex items-center justify-center px-6 sm:px-10 lg:px-10 pt-24 pb-6 lg:py-0">
+  <!-- Right: framed print (desktop only) -->
+  <div class="relative order-1 lg:order-2 bg-ink grain hidden lg:flex items-center justify-center px-6 sm:px-10 lg:px-10 pt-24 pb-6 lg:py-0">
     <div class="relative w-full max-w-lg">
       <div class="absolute -inset-3 border border-white/15 pointer-events-none"></div>
       <div class="relative aspect-[4/5] overflow-hidden">
@@ -396,7 +415,7 @@
     <h2 class="mt-6 font-display font-bold text-5xl sm:text-8xl leading-[0.95] tracking-tight mask inline-block" data-mask>
       Let's build<br>something.
     </h2>
-    <div class="mt-12 flex flex-col sm:flex-row justify-center items-center gap-4 reveal" data-d="1">
+    <div class="mt-12 flex flex-row flex-wrap justify-center items-center gap-3 sm:gap-4 reveal" data-d="1">
       <a href="mailto:sreehari.novag@gmail.com"
          class="group inline-flex items-center gap-3 bg-paper text-ink font-mono text-xs sm:text-sm uppercase tracking-widest px-6 py-4 hover:bg-neutral-200 transition-colors">
         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
@@ -518,6 +537,22 @@
   closeBtn.addEventListener('click', close);
   send.addEventListener('click', () => submit());
   input.addEventListener('keydown', e => { if (e.key === 'Enter') submit(); });
+
+  /* Mobile nav */
+  const navToggle = document.getElementById('navToggle');
+  const navMenu = document.getElementById('navMenu');
+  const navIcon = document.getElementById('navIcon');
+  const openIcon = '<line x1="4" y1="8" x2="20" y2="8"/><line x1="4" y1="16" x2="20" y2="16"/>';
+  const closeIcon = '<line x1="6" y1="6" x2="18" y2="18"/><line x1="6" y1="18" x2="18" y2="6"/>';
+  function setMenu(openState) {
+    navMenu.classList.toggle('hidden', !openState);
+    navIcon.innerHTML = openState ? closeIcon : openIcon;
+    navToggle.setAttribute('aria-expanded', openState);
+  }
+  if (navToggle) {
+    navToggle.addEventListener('click', () => setMenu(navMenu.classList.contains('hidden')));
+    navMenu.querySelectorAll('.nav-m').forEach(a => a.addEventListener('click', () => setMenu(false)));
+  }
 })();
 </script>
 
